@@ -1,66 +1,102 @@
-// myAIcademy case study: smooth scroll, reveals, and the few scenes that move with the scroll
+// myAIcademy case study: the stage follows the section in view, the role picker rebuilds the path,
+// figures count up once, and the parts of every section rise in turn
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
 
-  // reveals: anything marked data-reveal fades up once as it enters
-  const io = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), { rootMargin: '0px 0px -12% 0px' });
-  document.querySelectorAll('[data-reveal]').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 0.08 + 's'; io.observe(el); });
+  // ---------- the stage: whichever section crosses the middle of the screen picks the picture ----------
+  const captions = {
+    welcome: ['The welcome screen', 'myAIcademy app'],
+    layer: ['Pitch deck, the adoption layer', 'Brand and deck design'],
+    problem: ['Pitch deck, the problem', 'Brand and deck design'],
+    question: ['Pitch deck, the research', 'Brand and deck design'],
+    position: ['Pitch deck, positioning', 'Brand and deck design'],
+    role: ['Onboarding, step one', 'iOS, Android and web'],
+    lesson: ['A follow-along lesson in Lovable', 'iOS, Android and web'],
+    aimy: ['Aimy inside ChatGPT, prototype', 'Web, beside the approved tool'],
+  };
+  document.querySelectorAll('.split').forEach(split => {
+    const stage = split.querySelector('.stage');
+    const shots = [...stage.querySelectorAll('.shot')];
+    const cap = stage.querySelectorAll('.stage-bar span');
+    const parts = [...split.querySelectorAll('[data-shot]')];
+    const show = id => {
+      shots.forEach(s => s.classList.toggle('is-on', s.dataset.id === id));
+      parts.forEach(p => p.classList.toggle('is-on', p.dataset.shot === id));
+      if (captions[id]) { cap[0].textContent = captions[id][0]; cap[1].textContent = captions[id][1]; }
+    };
+    const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) show(e.target.dataset.shot); }),
+      { rootMargin: '-48% 0px -48% 0px' });
+    parts.forEach(p => io.observe(p));
+  });
 
-  // the lit squares in the problem grid switch on one after another
-  const lit = [...document.querySelectorAll('.pb-grid span.on')];
-  new IntersectionObserver((entries, o) => entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    lit.forEach((s, i) => setTimeout(() => s.classList.add('lit'), reduce ? 0 : 250 + i * 260));
-    o.disconnect();
-  }), { threshold: 0.4 }).observe(document.querySelector('.pb-grid'));
+  // ---------- the live thing: pick a job, get its first path ----------
+  const paths = {
+    consultant: ['AI for consultants', [['Turn interview notes into a findings deck', 'Claude'], ['Build a client-ready one-pager', 'Lovable'], ['Draft the steering-committee update', 'Copilot']]],
+    teacher: ['AI for teachers', [['Plan a week of lessons around your syllabus', 'ChatGPT'], ['Make a quiz from your own slides', 'Claude'], ['Give fair feedback on thirty essays', 'Copilot']]],
+    lawyer: ['AI for lawyers', [['Summarise a contract into its risks', 'Claude'], ['Compare two drafts clause by clause', 'Copilot'], ['Draft a client letter in your firm\'s voice', 'ChatGPT']]],
+    marketing: ['AI for marketers', [['Write a campaign brief in an hour', 'Claude'], ['Make the launch visuals', 'Midjourney'], ['Voice the product video', 'ElevenLabs']]],
+    hr: ['AI for HR and recruiting', [['Write a job description that attracts the right people', 'ChatGPT'], ['Screen applications against the brief', 'Copilot'], ['Build a first-week onboarding plan', 'Claude']]],
+    sales: ['AI for sales', [['Research an account before the call', 'ChatGPT'], ['Write a follow-up that gets a reply', 'Claude'], ['Turn call notes into a proposal', 'Copilot']]],
+  };
+  const chips = [...document.querySelectorAll('.chips button')];
+  const card = document.querySelector('.path');
+  const title = document.querySelector('[data-path-title]');
+  const list = document.querySelector('[data-path-list]');
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pick = btn => {
+    chips.forEach(c => c.setAttribute('aria-checked', String(c === btn)));
+    const [t, rows] = paths[btn.dataset.role];
+    const swap = () => {
+      title.textContent = t;
+      list.innerHTML = rows.map(([l, tool]) => `<li><span>${esc(l)}</span><b>${esc(tool)}</b></li>`).join('');
+      card.classList.remove('is-swapping');
+    };
+    if (reduce) return swap();
+    card.classList.add('is-swapping');
+    setTimeout(swap, 260);
+  };
+  chips.forEach((c, i) => {
+    c.addEventListener('click', () => pick(c));
+    // arrow keys move through the group, as a radio group should
+    c.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const n = chips[(i + d + chips.length) % chips.length];
+      n.focus(); pick(n);
+    });
+  });
 
-  // counters run up to their figure the first time they're seen
-  const fmt = n => n.toLocaleString('en-US');
+  // ---------- figures count up the first time they're seen ----------
   document.querySelectorAll('[data-count]').forEach(el => {
     const to = +el.dataset.count;
     new IntersectionObserver((entries, o) => entries.forEach(e => {
       if (!e.isIntersecting) return;
       o.disconnect();
       if (reduce) return;
-      const t0 = performance.now(), dur = 1400;
-      const step = t => { const k = Math.min(1, (t - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - k, 3))); el.textContent = fmt(v); if (k < 1) requestAnimationFrame(step); };
+      const t0 = performance.now(), dur = 1300;
+      const step = t => {
+        const k = Math.min(1, (t - t0) / dur);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))).toLocaleString('en-US');
+        if (k < 1) requestAnimationFrame(step);
+      };
       requestAnimationFrame(step);
     }), { threshold: 0.6 }).observe(el);
   });
 
-  if (!hasGsap || reduce) return;
-  gsap.registerPlugin(ScrollTrigger);
-  if (typeof Lenis !== 'undefined') {
-    const lenis = new Lenis({ lerp: 0.1 });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(t => lenis.raf(t * 1000));
-    gsap.ticker.lagSmoothing(0);
-  }
-
-  // hero: the phones rise out of the horizon, the wordmark sinks behind them
-  gsap.from('.hero-phones .phone', { yPercent: 40, opacity: 0, duration: 1.4, stagger: 0.12, ease: 'power3.out', delay: 0.2 });
-  gsap.from('.hero-word', { yPercent: 20, opacity: 0, duration: 1.6, ease: 'power3.out' });
-  gsap.to('.hero-word', { yPercent: 30, opacity: 0.25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero-phones', { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-
-  // the rings tilt up into place as their sections arrive
-  gsap.from('.ring', { rotateX: 88, scale: 0.6, opacity: 0, ease: 'power2.out', scrollTrigger: { trigger: '.ring-stage', start: 'top 85%', end: 'center 55%', scrub: true } });
-  gsap.from('.platform i', { scale: 0.4, opacity: 0, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: '.platform-stage', start: 'top 85%', end: 'center 60%', scrub: true } });
-  gsap.from('.beam-rings li', { scale: 0.7, opacity: 0, stagger: 0.18, ease: 'power2.out', scrollTrigger: { trigger: '.beam', start: 'top 80%', end: 'bottom 70%', scrub: true } });
-  gsap.from('.beam-light', { opacity: 0, ease: 'none', scrollTrigger: { trigger: '.beam', start: 'top 80%', end: 'center 60%', scrub: true } });
-
-  // pedestals grow from the floor in priority order
-  gsap.from('.ped', { scaleY: 0, stagger: 0.15, ease: 'power3.out', duration: 1.1, scrollTrigger: { trigger: '.pedestals', start: 'top 70%' } });
-
-  // the Aimy browser leans back onto the horizon
-  gsap.from('.browser', { rotateX: 18, yPercent: 12, transformPerspective: 1400, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: { trigger: '.pd-aimy', start: 'top 80%', end: 'center 50%', scrub: true } });
-
-  // the type curve draws itself
-  const curve = document.querySelector('.type-curve path');
-  const len = curve.getTotalLength();
-  gsap.fromTo(curve, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.type-spec', start: 'top 80%', end: 'bottom 50%', scrub: true } });
-  gsap.from('.orb', { scale: 0.5, opacity: 0, stagger: 0.1, duration: 0.9, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.orbs', start: 'top 80%' } });
+  // ---------- entrances: heading, then text, then picture, 70ms apart, once per section ----------
+  if (reduce) return;
+  const groups = document.querySelectorAll('.sheet-main, .block, .io-in, .io-out, .steps, .tools, .mosaic, .brand-inner, .letter-col, .foot');
+  groups.forEach(g => {
+    const kids = [...g.children].filter(k => !k.classList.contains('io-word'));
+    kids.forEach((k, i) => { k.classList.add('rise'); k.style.setProperty('--d', (i * 0.07).toFixed(2) + 's'); });
+  });
+  const rio = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll(':scope > .rise').forEach(k => k.classList.add('is-in'));
+    rio.unobserve(e.target);
+  }), { rootMargin: '0px 0px -10% 0px' });
+  groups.forEach(g => rio.observe(g));
+  // the first screen is in view at load
+  requestAnimationFrame(() => document.querySelectorAll('.sheet-main > .rise').forEach(k => k.classList.add('is-in')));
 })();
