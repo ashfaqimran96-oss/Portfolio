@@ -8,203 +8,187 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="cs.css">
 <script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="scenes/stage.css">
+<link rel="stylesheet" href="cs.css">
 </head>
 <body>
 
-<!-- ============ Split A: the reading sheet beside the stage ============ -->
-<div class="split" id="top">
-  <div class="read">
+<header class="bar">
+  <a href="../../index.html#work">All work</a>
+  <img class="wordmark" src="../../assets/myaicademy-logo.png" alt="myAIcademy" width="1277" height="268">
+  <a href="mailto:ar.ashfaqimran96@gmail.com?subject=About%20the%20myAIcademy%20case%20study">Email Ashfaq</a>
+</header>
 
-    <!-- hero: the sheet, set like the first page of a deck -->
-    <section class="sheet" aria-labelledby="title" data-shot="welcome">
-      <nav class="sheet-bar" aria-label="Case study">
-        <a href="../../index.html#work">All work</a>
-        <img class="wordmark" src="../../assets/myaicademy-logo.png" alt="myAIcademy" width="1277" height="268">
-        <a href="mailto:ar.ashfaqimran96@gmail.com?subject=About%20the%20myAIcademy%20case%20study">Email</a>
-      </nav>
-      <div class="sheet-main">
-        <h1 id="title">Learn AI.<br>Apply it at&nbsp;work.</h1>
-        <p class="lead">A case study by Ashfaq Imran on designing myAIcademy, the app that teaches professionals AI inside their own job and proves the work got done.</p>
-        <a class="btn" href="#path">Try the first screen</a>
+<main>
+
+  <!-- 1. Hero: the title on the brand's blue, the real app rising from the panel's edge -->
+  <section class="hero" aria-labelledby="title">
+    <div class="hero-panel">
+      <div class="hero-copy">
+        <h1 id="title">Learn AI.<br>Apply it at work.</h1>
+        <p class="hero-sub">How I designed myAIcademy, the app that teaches people AI inside their own job, and proves the work got done.</p>
+        <a class="btn btn--light" href="#story">Follow the story</a>
+        <p class="hero-meta">Head of Product Design · iOS, Android and web · 2025 to now</p>
       </div>
-      <dl class="sheet-facts">
-        <div><dt>Role</dt><dd>Head of Product Design, product and brand end to end</dd></div>
-        <div><dt>Platforms</dt><dd>iOS, Android and web</dd></div>
-        <div><dt>Timeline</dt><dd>2025 to now</dd></div>
-      </dl>
-    </section>
+      <div class="hero-phones">
+        <img class="phone phone--back" src="img/phone-role.webp" alt="Onboarding: what role best describes you?" width="900" height="1407">
+        <img class="phone phone--front" src="img/phone-welcome.webp" alt="myAIcademy welcome screen: we help you master AI the way you work" width="900" height="1456">
+        <img class="phone phone--back phone--r" src="img/phone-lesson.webp" alt="A follow-along lesson step in Lovable" width="900" height="1407">
+      </div>
+    </div>
+  </section>
 
-    <!-- intro: the brief, in a narrow column -->
-    <section class="block" aria-labelledby="brief-title" data-shot="layer">
-      <h2 id="brief-title">The brief</h2>
-      <p class="first">Companies bought AI licences for everyone. Almost nobody changed how they worked.</p>
-      <p>myAIcademy set out to be the adoption layer: the part between the licence and the finished work. Not another course library, and not a tour of buttons.</p>
-      <p>I joined to design the product and the brand from the ground up, across iOS, Android and web, with a founder and two engineers.</p>
-      <p>The job was to make one loop feel like one product: learn inside your role, practise on real work, and finish beside the tool your company already approves.</p>
-    </section>
+  <!-- 2. Scene: the seats. Every licence lights up, then four in five go dark -->
+  <section class="scene seats" id="story" data-scene="seats" aria-labelledby="seats-title">
+    <div class="scene-stage">
+      <div class="seats-panel">
+        <div class="seats-words">
+          <h2 id="seats-title">Bought for everyone.</h2>
+          <p class="seats-beat">Four in five see nothing back.</p>
+          <p class="giant"><span data-seats-num>80</span>%</p>
+          <p class="seats-src">of organisations report no earnings impact from AI, across 30 million Copilot seats. Microsoft and McKinsey, 2025.</p>
+        </div>
+        <div class="seats-grid" aria-hidden="true">
+          <i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat keep"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i>
+          <i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat keep"><b></b></i>
+          <i class="seat keep"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i>
+          <i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat"><b></b></i><i class="seat keep"><b></b></i><i class="seat"><b></b></i>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- problem: one figure, large -->
-    <section class="block" aria-labelledby="problem-title" data-shot="problem">
-      <h2 id="problem-title">Bought for everyone, used by few</h2>
-      <p class="figure"><span data-count="80">80</span>%</p>
-      <p class="first">of organisations report no material earnings impact from AI. One company in five sees any at all.</p>
-      <p>That's across more than 30 million Copilot seats alone, according to Microsoft and McKinsey in 2025.</p>
-    </section>
-
-    <!-- research: the question, set as a statement -->
-    <section class="block" aria-labelledby="research-title" data-shot="question">
+  <!-- 3. Quiet: the question in every room -->
+  <section class="quiet research" aria-labelledby="research-title">
+    <div class="research-words">
       <h2 id="research-title">The question in every room</h2>
       <blockquote class="statement"><p>“How does my team use this in its actual work?”</p></blockquote>
-      <p>The founder had trained more than 10,000 professionals in person, and the same question came up every time. Employees knew the tool was there. They didn't know what to do inside it.</p>
-      <p class="first">So the licence was never the hard part. The product had to start from the job, not from the tool.</p>
-    </section>
-
-    <!-- positioning: a real comparison, set as a table -->
-    <section class="block" aria-labelledby="position-title" data-shot="position">
-      <h2 id="position-title">Where it sits</h2>
-      <p>Others teach the tool. myAIcademy proves the work got done, and the design had to make that difference obvious inside the product, not only in the pitch.</p>
-      <table class="compare">
-        <thead><tr><th scope="col">Who</th><th scope="col">What they do</th></tr></thead>
-        <tbody>
-          <tr><td>Coursera, Udemy</td><td>Teach broadly</td></tr>
-          <tr><td>Vendor academies</td><td>Teach one tool</td></tr>
-          <tr><td>WalkMe, Whatfix</td><td>Guide clicks</td></tr>
-          <tr class="is-us"><td>myAIcademy</td><td>Proves finished work, across the approved stack</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-  </div>
-
-  <!-- the stage: one picture at a time, chosen by the section in view -->
-  <figure class="stage" aria-label="Product and brand pictures for the section in view">
-    <div class="shot is-on" data-id="welcome"><img class="phone" src="img/phone-welcome.webp" alt="myAIcademy welcome screen on a phone: 'We help you master AI the way you work', over a collage of AI tools" width="900" height="1456"></div>
-    <div class="shot" data-id="layer"><img class="slide" src="img/slide-layer.webp" alt="Pitch slide in myAIcademy blue: 'We're the adoption layer. We turn AI licences into finished work.'" width="2000" height="1125" loading="lazy"></div>
-    <div class="shot" data-id="problem"><img class="slide" src="img/slide-problem.webp" alt="Pitch slide: 'Organisations bought AI for everyone. More than 80% still see no earnings impact', with a grid of squares, one in five lit blue" width="2000" height="1125" loading="lazy"></div>
-    <div class="shot" data-id="question"><img class="slide" src="img/slide-question.webp" alt="Pitch slide: 'How does my team use this in its actual work?', 10,000+ professionals trained" width="2000" height="1125" loading="lazy"></div>
-    <div class="shot" data-id="position"><img class="slide" src="img/slide-position.webp" alt="Pitch slide: 'Others teach the tool. We prove the work got done', comparing Coursera, vendor academies, WalkMe and myAIcademy" width="2000" height="1125" loading="lazy"></div>
-    <figcaption class="stage-bar"><span data-cap>The welcome screen</span><span>myAIcademy app</span></figcaption>
-  </figure>
-</div>
-
-<!-- ============ The live thing: your job in, your path out ============ -->
-<section class="io" id="path" aria-labelledby="io-title">
-  <h2 id="io-title" class="visually-hidden">Your job, your path</h2>
-  <div class="io-in">
-    <p class="io-ask">What role best describes you?</p>
-    <div class="chips" role="radiogroup" aria-label="Pick a role">
-      <button type="button" role="radio" aria-checked="true" data-role="consultant">Consultant</button>
-      <button type="button" role="radio" aria-checked="false" data-role="teacher">Teacher</button>
-      <button type="button" role="radio" aria-checked="false" data-role="lawyer">Lawyer</button>
-      <button type="button" role="radio" aria-checked="false" data-role="marketing">Marketing</button>
-      <button type="button" role="radio" aria-checked="false" data-role="hr">HR and recruiting</button>
-      <button type="button" role="radio" aria-checked="false" data-role="sales">Sales</button>
+      <p>Asked by more than 10,000 professionals trained in person. They knew the tool was there. Not what to do inside it.</p>
     </div>
-    <p class="io-note">The real onboarding asks this first. Pick one and the path on the right is rebuilt around that job.</p>
-    <p class="io-word io-word--l" aria-hidden="true">Your job,</p>
-  </div>
-  <div class="io-out">
-    <div class="path" data-ui aria-live="polite">
-      <p class="path-k">Your first path</p>
-      <p class="path-t" data-path-title>AI for consultants</p>
-      <ol class="path-list" data-path-list>
-        <li><span>Turn interview notes into a findings deck</span><b>Claude</b></li>
-        <li><span>Build a client-ready one-pager</span><b>Lovable</b></li>
-        <li><span>Draft the steering-committee update</span><b>Copilot</b></li>
-      </ol>
-      <p class="path-f">Each lesson is a follow-along on your own work. Finish the path and it lands in your skill passport.</p>
+    <figure class="research-pic">
+      <img src="img/slide-layer.webp" alt="Pitch slide: we're the adoption layer, we turn AI licences into finished work" width="2000" height="1125" loading="lazy">
+      <figcaption>So we built the adoption layer.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4. Scene: one loop. The phone moves from job to lesson, then opens into the browser where Aimy works -->
+  <section class="scene loop" data-scene="loop" aria-labelledby="loop-title">
+    <div class="scene-stage">
+      <div class="loop-panel">
+        <h2 id="loop-title" class="loop-h">One loop, one product</h2>
+        <ol class="loop-steps">
+          <li><p class="loop-s">Start with the job.</p><p>A few questions about your role shape the whole path.</p></li>
+          <li><p class="loop-s">Practise on real work.</p><p>Every lesson is a follow-along on the real tool.</p></li>
+          <li><p class="loop-s">Finish beside the tool.</p><p>Aimy walks you to done, inside ChatGPT.</p></li>
+        </ol>
+        <div class="device">
+          <div class="device-phone">
+            <img src="img/phone-role.webp" alt="Onboarding: what role best describes you?" width="900" height="1407" loading="lazy">
+            <img src="img/phone-lesson.webp" alt="Lesson: wait for the first version to finish" width="900" height="1407" loading="lazy">
+          </div>
+          <div class="device-browser">
+            <p class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></p>
+            <img src="img/aimy-panel.webp" alt="Aimy guiding step 2 of 6 inside ChatGPT's GPT builder" width="1400" height="824" loading="lazy">
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="io-word io-word--r" aria-hidden="true">your path.</p>
-  </div>
-</section>
+  </section>
 
-<!-- ============ Split B: how it works, the screen changing beside each step ============ -->
-<div class="split split--b">
-  <div class="read">
-    <section class="steps" aria-labelledby="how-title">
-      <h2 id="how-title">How it works</h2>
-      <div class="step is-on" data-shot="role">
-        <img class="step-pic phone" src="img/phone-role.webp" alt="Onboarding: what role best describes you?" width="900" height="1407" loading="lazy">
-        <p class="step-s">Start with the job, not the tool.</p>
-        <p>A few questions about your role, and the path takes shape on the AI tools your organisation already approves. A consultant, a teacher and a lawyer never get the same course.</p>
+  <!-- 5. Quiet, and the live thing: pick a job, get its first path -->
+  <section class="io" id="path" aria-labelledby="io-title">
+    <div class="io-in">
+      <h2 id="io-title">Pick a job, get a path</h2>
+      <div class="chips" role="radiogroup" aria-label="Pick a role">
+        <button type="button" role="radio" aria-checked="true" data-role="consultant">Consultant</button>
+        <button type="button" role="radio" aria-checked="false" data-role="teacher">Teacher</button>
+        <button type="button" role="radio" aria-checked="false" data-role="lawyer">Lawyer</button>
+        <button type="button" role="radio" aria-checked="false" data-role="marketing">Marketing</button>
+        <button type="button" role="radio" aria-checked="false" data-role="hr">HR and recruiting</button>
+        <button type="button" role="radio" aria-checked="false" data-role="sales">Sales</button>
       </div>
-      <div class="step" data-shot="lesson">
-        <img class="step-pic phone" src="img/phone-lesson.webp" alt="Lesson step eight: wait for the first version to finish" width="900" height="1407" loading="lazy">
-        <p class="step-s">Then practise on real work.</p>
-        <p>Every lesson is a follow-along, done on the real tool, with each screen explained as it appears. When a tool ships a major release, the paths are rebuilt within 72 hours.</p>
+      <p class="io-note">The real onboarding asks this first.</p>
+    </div>
+    <div class="io-out">
+      <div class="path" data-ui aria-live="polite">
+        <p class="path-k">Your first path</p>
+        <p class="path-t" data-path-title>AI for consultants</p>
+        <ol class="path-list" data-path-list>
+          <li><span>Turn interview notes into a findings deck</span><b>Claude</b></li>
+          <li><span>Build a client-ready one-pager</span><b>Lovable</b></li>
+          <li><span>Draft the steering-committee update</span><b>Copilot</b></li>
+        </ol>
+        <p class="path-f">Finish the path and it lands in your skill passport.</p>
       </div>
-      <div class="step" data-shot="aimy">
-        <img class="step-pic slide slide--ui" src="img/aimy-panel.webp" alt="Aimy guiding step 2 of 6 inside ChatGPT" width="1400" height="824" loading="lazy">
-        <p class="step-s">Finish beside the tool, with Aimy.</p>
-        <p>The lesson ends, the work doesn't. Aimy sits inside the approved tool, here ChatGPT's GPT builder, sets the outcome, follows the path and checks the work is finished. Every finished path adds a skill passport you can share.</p>
+    </div>
+  </section>
+
+  <!-- 6. Scene: every screen, one system. A run of devices crosses the stage -->
+  <section class="scene pan" data-scene="pan" aria-labelledby="pan-title">
+    <div class="scene-stage">
+      <div class="pan-panel">
+        <div class="pan-head">
+          <h2 id="pan-title">Every screen, one system</h2>
+          <p>Real screens, and the mockups still to come.</p>
+        </div>
+        <ul class="pan-track">
+          <li class="mock"><div class="frame frame--phone"><img src="img/phone-welcome.webp" alt="Welcome screen" width="900" height="1456" loading="lazy"></div><p>Welcome</p></li>
+          <li class="mock"><div class="frame frame--phone"><img src="img/phone-role.webp" alt="Onboarding role picker" width="900" height="1407" loading="lazy"></div><p>Onboarding</p></li>
+          <li class="mock"><div class="frame frame--phone"><img src="img/phone-lesson.webp" alt="Follow-along lesson" width="900" height="1407" loading="lazy"></div><p>Lesson</p></li>
+          <li class="mock mock--wide"><div class="frame frame--laptop"><img src="img/aimy-panel.webp" alt="Aimy inside ChatGPT" width="1400" height="824" loading="lazy"></div><p>Aimy, inside ChatGPT</p></li>
+          <li class="mock"><div class="frame frame--phone frame--ph"><span>Skill passport</span></div><p>Skill passport, mockup</p></li>
+          <li class="mock"><div class="frame frame--phone frame--ph"><span>Progress</span></div><p>Progress, mockup</p></li>
+          <li class="mock mock--wide"><div class="frame frame--laptop frame--ph"><span>Team dashboard</span></div><p>Team dashboard, mockup</p></li>
+          <li class="mock mock--wide"><div class="frame frame--laptop frame--ph"><span>Path builder</span></div><p>Path builder, mockup</p></li>
+        </ul>
       </div>
-    </section>
-  </div>
-  <figure class="stage stage--ink" aria-label="The app screen for the step in view">
-    <div class="shot is-on" data-id="role"><img class="phone" src="img/phone-role.webp" alt="Onboarding: 'What role best describes you?' with role chips, Consultant selected" width="900" height="1407" loading="lazy"></div>
-    <div class="shot" data-id="lesson"><img class="phone" src="img/phone-lesson.webp" alt="Lesson step 8: 'Wait for the first version to finish', with a Lovable preview of a salon website" width="900" height="1407" loading="lazy"></div>
-    <div class="shot" data-id="aimy"><img class="slide slide--ui" src="img/aimy-panel.webp" alt="Aimy guiding step 2 of 6 inside ChatGPT: 'Name your GPT', with Back, Next and 'Let Aimy finish the rest'" width="1400" height="824" loading="lazy"></div>
-    <figcaption class="stage-bar"><span data-cap>Onboarding, step one</span><span>iOS, Android and web</span></figcaption>
-  </figure>
-</div>
+    </div>
+  </section>
 
-<!-- ============ Proof: the tools the lessons run on ============ -->
-<section class="tools" aria-labelledby="tools-title">
-  <h2 id="tools-title">Lessons run on the tools teams already approve</h2>
-  <ul class="tool-row">
-    <li>Claude</li><li>ChatGPT</li><li>Microsoft Copilot</li><li>Lovable</li><li>Midjourney</li><li>ElevenLabs</li>
-  </ul>
-</section>
+  <!-- 7. Quiet: what it adds up to -->
+  <section class="quiet figures" aria-labelledby="fig-title">
+    <h2 id="fig-title">What it adds up to</h2>
+    <div class="fig-row">
+      <p class="fig"><span class="giant"><span data-count="10000">10,000</span>+</span><span>professionals trained in person</span></p>
+      <p class="fig"><span class="giant"><span data-count="72">72</span>h</span><span>to rebuild every path after a tool release</span></p>
+    </div>
+  </section>
 
-<!-- ============ Figures: the cover beside two flat tiles ============ -->
-<section class="mosaic" aria-labelledby="mosaic-title">
-  <h2 id="mosaic-title">Where it stands</h2>
-  <div class="mosaic-grid">
-    <img class="mosaic-pic" src="img/slide-problem.webp" alt="Pitch slide detail: a grid of squares where one in five is lit blue, the share of companies seeing earnings impact from AI" width="2000" height="1125" loading="lazy">
-    <div class="tile tile--blue"><p class="tile-n"><span data-count="10000">10,000</span>+</p><p>professionals trained in person before a line of the app was drawn</p></div>
-    <div class="tile tile--ink"><p class="tile-n"><span data-count="72">72</span>h</p><p>to rebuild every learning path after a major tool release</p></div>
-  </div>
-</section>
-
-<!-- ============ The brand, on its own blue ============ -->
-<section class="brand" aria-labelledby="brand-title">
-  <div class="brand-inner">
-    <h2 id="brand-title">One blue, one voice</h2>
-    <img class="brand-logo" src="../../assets/myaicademy-logo.png" alt="The myAIcademy logo: a paper plane mid-flight beside a handwritten wordmark" width="1277" height="268" loading="lazy">
-    <div class="brand-cols">
-      <p>A paper plane mid-flight: learning that leaves the classroom and goes to work. The handwritten wordmark keeps it human next to the tools it teaches.</p>
-      <ul class="swatches" aria-label="Colours">
-        <li><i style="--c: #3370ff"></i>Blue #3370FF, for the one thing to do next</li>
-        <li><i style="--c: #0b0d14"></i>Ink #0B0D14, the app's ground</li>
-        <li><i style="--c: #ffffff"></i>White, for everything people read</li>
+  <!-- 8. The brand, on its own blue -->
+  <section class="brand" aria-labelledby="brand-title">
+    <div class="brand-panel">
+      <h2 id="brand-title">One blue, one voice</h2>
+      <img class="brand-logo" src="../../assets/myaicademy-logo.png" alt="The myAIcademy logo: a paper plane mid-flight beside a handwritten wordmark" width="1277" height="268" loading="lazy">
+      <ul class="swatches" aria-label="Colours and type">
+        <li class="sw sw--blue">Blue<b>#3370FF</b></li>
+        <li class="sw sw--ink">Ink<b>#0B0D14</b></li>
+        <li class="sw sw--white">White<b>#FFFFFF</b></li>
+        <li class="sw sw--type">Inter<b>Regular, medium, semibold</b></li>
       </ul>
-      <p>Inter in three weights, regular, medium and semibold, across the app, the site, the decks and social. The learner's own work is always the brightest thing on screen.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ The letter: what I owned ============ -->
-<section class="letter" aria-labelledby="letter-title">
-  <div class="letter-col">
+  <!-- 9. What I owned -->
+  <section class="quiet letter" aria-labelledby="letter-title">
     <img class="letter-face" src="../../assets/bust2.webp" alt="" width="2600" height="3228" loading="lazy">
     <h2 id="letter-title">What I owned</h2>
-    <p>I designed myAIcademy end to end: the research synthesis, the flows, onboarding, the lesson player and Aimy, across iOS, Android and web.</p>
-    <p>I built one dark design system with a single accent in Figma and shipped it to all three platforms, then carried the same language into the identity, the website, the investor and sales decks, and social.</p>
-    <p>AI is in how I work, not only in what we teach. I prototype in code with Claude Code, make imagery with Higgsfield, voice lessons with ElevenLabs and run the content pipelines in n8n.</p>
-    <p>The part I'm proudest of is <mark>the loop feeling like one product</mark>, from the first question about your job to a finished, verified piece of work.</p>
-    <p class="sign">Ashfaq Imran</p>
-    <p class="sign-role">Head of Product Design</p>
-  </div>
-</section>
+    <p>The whole product and the brand: research, flows, onboarding, the lesson player and Aimy, one design system across iOS, Android and web, and the site, decks and social around it. Prototyped in code with Claude Code, imagery with Higgsfield, lessons voiced with ElevenLabs.</p>
+    <p class="sign">Ashfaq Imran, Head of Product Design</p>
+  </section>
+
+</main>
 
 <footer class="foot">
   <p>myAIcademy, a case study</p>
-  <nav aria-label="More"><a href="../../index.html#work">All work</a><a href="mailto:ar.ashfaqimran96@gmail.com?subject=About%20the%20myAIcademy%20case%20study">Email Ashfaq</a><a href="#top">Back to top</a></nav>
+  <nav aria-label="More"><a href="../../index.html#work">All work</a><a href="mailto:ar.ashfaqimran96@gmail.com?subject=About%20the%20myAIcademy%20case%20study">Email Ashfaq</a><a href="#title">Back to top</a></nav>
   <p>2026</p>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="scenes/stage.js"></script>
 <script src="cs.js"></script>
 </body>
 </html>

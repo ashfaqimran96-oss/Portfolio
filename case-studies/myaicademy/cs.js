@@ -1,32 +1,53 @@
-// myAIcademy case study: the stage follows the section in view, the role picker rebuilds the path,
-// figures count up once, and the parts of every section rise in turn
+// myAIcademy case study: three scroll scenes on the shared stage (the seats, the loop, every screen),
+// the role picker, figures that count up once, and the parts of every quiet section rising in turn
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.Scenes = window.Scenes || {};
 
-  // ---------- the stage: whichever section crosses the middle of the screen picks the picture ----------
-  const captions = {
-    welcome: ['The welcome screen', 'myAIcademy app'],
-    layer: ['Pitch deck, the adoption layer', 'Brand and deck design'],
-    problem: ['Pitch deck, the problem', 'Brand and deck design'],
-    question: ['Pitch deck, the research', 'Brand and deck design'],
-    position: ['Pitch deck, positioning', 'Brand and deck design'],
-    role: ['Onboarding, step one', 'iOS, Android and web'],
-    lesson: ['A follow-along lesson in Lovable', 'iOS, Android and web'],
-    aimy: ['Aimy inside ChatGPT, prototype', 'Web, beside the approved tool'],
-  };
-  document.querySelectorAll('.split').forEach(split => {
-    const stage = split.querySelector('.stage');
-    const shots = [...stage.querySelectorAll('.shot')];
-    const cap = stage.querySelectorAll('.stage-bar span');
-    const parts = [...split.querySelectorAll('[data-shot]')];
-    const show = id => {
-      shots.forEach(s => s.classList.toggle('is-on', s.dataset.id === id));
-      parts.forEach(p => p.classList.toggle('is-on', p.dataset.shot === id));
-      if (captions[id]) { cap[0].textContent = captions[id][0]; cap[1].textContent = captions[id][1]; }
-    };
-    const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) show(e.target.dataset.shot); }),
-      { rootMargin: '-48% 0px -48% 0px' });
-    parts.forEach(p => io.observe(p));
+  // ---------- scene: every seat lights up, then four in five go grey while the figure climbs ----------
+  Scenes.seats = (root, o) => Stage.scene(root, {
+    hold: o.hold ?? 2,
+    build(tl, { q }) {
+      const num = q('[data-seats-num]')[0], n = { v: 0 };
+      tl.fromTo(q('.seat'), { scale: 0.86, autoAlpha: 0.14 }, { scale: 1, autoAlpha: 1, duration: 0.24, stagger: { each: 0.008, from: 'random' } }, 0)
+        .fromTo(q('.seat:not(.keep) b'), { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: { each: 0.012, from: 'random' } }, 0.42)
+        .fromTo(q('.seats-beat, .seats .giant, .seats-src'), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.12, stagger: 0.05 }, 0.42)
+        .fromTo(n, { v: 0 }, { v: 80, duration: 0.3, onUpdate: () => { num.textContent = Math.round(n.v); } }, 0.45)
+        .fromTo(q('.seat.keep'), { scale: 1 }, { scale: 1.08, duration: 0.12 }, 0.8);
+    },
+  });
+
+  // ---------- scene: one device moves from the job to the lesson, then opens into the browser ----------
+  Scenes.loop = (root, o) => Stage.scene(root, {
+    hold: o.hold ?? 3,
+    build(tl, { q }) {
+      const li = q('.loop-steps li'), shots = q('.device-phone img');
+      const phone = q('.device-phone')[0], browser = q('.device-browser')[0];
+      tl.fromTo([li[1], li[2]], { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.001 }, 0)
+        .fromTo(shots[1], { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.001 }, 0)
+        .fromTo(browser, { autoAlpha: 0, scale: 0.55 }, { autoAlpha: 0, scale: 0.55, duration: 0.001 }, 0)
+        .fromTo(phone, { yPercent: 14 }, { yPercent: 0, duration: 0.25 }, 0)
+        // the job becomes the lesson
+        .to(li[0], { autoAlpha: 0, y: -30, duration: 0.06 }, 0.27)
+        .fromTo(li[1], { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.06 }, 0.36)
+        .to(shots[1], { autoAlpha: 1, duration: 0.1 }, 0.32)
+        // the phone gives way to the browser, where Aimy works beside the tool
+        .to(li[1], { autoAlpha: 0, y: -30, duration: 0.06 }, 0.58)
+        .fromTo(li[2], { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.06 }, 0.68)
+        .to(phone, { yPercent: 30, autoAlpha: 0, duration: 0.12 }, 0.6)
+        .to(browser, { autoAlpha: 1, scale: 1, duration: 0.16, ease: 'power2.out' }, 0.64);
+    },
+  });
+
+  // ---------- scene: the run of screens crosses the stage, odd ones drifting against the even ----------
+  Scenes.pan = (root, o) => Stage.scene(root, {
+    hold: o.hold ?? 2.5,
+    build(tl, { q }) {
+      const track = q('.pan-track')[0], panel = q('.pan-panel')[0];
+      const run = () => -(track.scrollWidth - panel.clientWidth + parseFloat(getComputedStyle(panel).paddingLeft) * 2);
+      tl.fromTo(track, { x: 0 }, { x: run, duration: 1 }, 0)
+        .fromTo(q('.mock:nth-child(odd)'), { y: 24 }, { y: -24, duration: 1 }, 0);
+    },
   });
 
   // ---------- the live thing: pick a job, get its first path ----------
@@ -57,7 +78,6 @@
   };
   chips.forEach((c, i) => {
     c.addEventListener('click', () => pick(c));
-    // arrow keys move through the group, as a radio group should
     c.addEventListener('keydown', e => {
       const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
       if (!d) return;
@@ -70,9 +90,9 @@
   // ---------- figures count up the first time they're seen ----------
   document.querySelectorAll('[data-count]').forEach(el => {
     const to = +el.dataset.count;
-    new IntersectionObserver((entries, o) => entries.forEach(e => {
+    new IntersectionObserver((entries, ob) => entries.forEach(e => {
       if (!e.isIntersecting) return;
-      o.disconnect();
+      ob.disconnect();
       if (reduce) return;
       const t0 = performance.now(), dur = 1300;
       const step = t => {
@@ -84,19 +104,23 @@
     }), { threshold: 0.6 }).observe(el);
   });
 
-  // ---------- entrances: heading, then text, then picture, 70ms apart, once per section ----------
-  if (reduce) return;
-  const groups = document.querySelectorAll('.sheet-main, .block, .io-in, .io-out, .steps, .tools, .mosaic, .brand-inner, .letter-col, .foot');
-  groups.forEach(g => {
-    const kids = [...g.children].filter(k => !k.classList.contains('io-word'));
-    kids.forEach((k, i) => { k.classList.add('rise'); k.style.setProperty('--d', (i * 0.07).toFixed(2) + 's'); });
-  });
-  const rio = new IntersectionObserver(entries => entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    e.target.querySelectorAll(':scope > .rise').forEach(k => k.classList.add('is-in'));
-    rio.unobserve(e.target);
-  }), { rootMargin: '0px 0px -10% 0px' });
-  groups.forEach(g => rio.observe(g));
-  // the first screen is in view at load
-  requestAnimationFrame(() => document.querySelectorAll('.sheet-main > .rise').forEach(k => k.classList.add('is-in')));
+  // ---------- entrances for the quiet sections: heading, text, picture, 70ms apart ----------
+  if (!reduce) {
+    const groups = document.querySelectorAll('.hero-copy, .research-words, .research-pic, .io-in, .io-out, .figures, .brand-panel, .swatches, .letter, .foot');
+    groups.forEach(g => [...g.children].forEach((k, i) => { k.classList.add('rise'); k.style.setProperty('--d', (i * 0.07).toFixed(2) + 's'); }));
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll(':scope > .rise').forEach(k => k.classList.add('is-in'));
+      io.unobserve(e.target);
+    }), { rootMargin: '0px 0px -8% 0px' });
+    groups.forEach(g => io.observe(g));
+  }
+
+  // ---------- the stage: smooth wheel, the scenes, and the hero phones drifting up as you leave ----------
+  if (!window.Stage) return;
+  Stage.smooth();
+  Stage.init();
+  if (Stage.live && !reduce) {
+    gsap.to('.hero-phones', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  }
 })();
