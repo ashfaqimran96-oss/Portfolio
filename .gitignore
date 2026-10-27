@@ -1,0 +1,18 @@
+# local backups and earlier drafts
+_backup-*/
+*.backup.*
+*.pre-*.*
+.taste-skill/
+
+# raw 4K renders (sources for the webp files in assets/)
+assets/src/
+
+# assets from earlier versions that the site no longer uses
+assets/seq/
+assets/fly/
+assets/note-*.png
+assets/bust.webp
+assets/bust2-red.webp
+assets/crowd.jpg
+assets/card-note.jpg
+assets/hero.webp
