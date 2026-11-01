@@ -206,6 +206,10 @@ html:not(.js) .f-cards, html:not(.js) .f-black, html:not(.js) .f-logo, html:not(
 .panel h3 { grid-area: h; font-size: clamp(34px, 3.4vw, 84px); }
 .panel-facts { grid-area: facts; display: grid; justify-items: end; gap: 6px; font-size: 13px; font-weight: 500; }
 .panel-facts li { padding: 6px 10px; border-radius: 6px; background: rgba(255, 255, 255, .3); }
+/* the way into a case study: a solid pill that stands apart from the facts */
+.panel-facts li.panel-link { padding: 0; background: none; }
+.panel-link a { display: inline-flex; gap: 6px; padding: 9px 14px; border-radius: 999px; background: var(--ink); color: #fff; text-decoration: none; font-weight: 600; transition: transform .25s var(--ease); }
+.panel-link a:hover { transform: translateY(-2px); }
 .panel--red .panel-facts li, .panel--ink .panel-facts li, .panel--blue .panel-facts li { background: rgba(255, 255, 255, .12); }
 .panel--yellow { background: linear-gradient(160deg, #ffd43b, var(--yellow) 55%, #e8a800); }
 .panel--orange { background: linear-gradient(160deg, #ff7a3d, var(--orange) 55%, #c4400c); }
